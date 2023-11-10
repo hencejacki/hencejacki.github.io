@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <!-- Minima -->
+  <!-- Hexo theme created by @adisaktijrs -->
+
+  <!-- Basic Page Needs
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <meta charset="utf-8">
+
+  
+  <title>xv6-Makefile解读</title>
+  
+  <link rel="canonical" href="http://example.com/2023/08/23/xv6-Makefile%E8%A7%A3%E8%AF%BB/">
+  
+  <meta name="description" content="Why we need to read Makefile first  Makefile是编译的核心文件，我觉得需要先搞懂编译过程，也就是说先搞清楚一个操作系统到底应该需要哪些文件才能跑起来； 学习Makefile语法，尽管Modern C&amp;#x2F;C++可以使用CMake进行Makefile的自">
+  
+  
+  <meta name="author" content="Hence Jacki">
+  
+  <meta property="og:image" content="http://example.comundefined">
+  
+  <meta property="og:site_name" content="Just Go" />
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="xv6-Makefile解读" />
+  
+  <meta property="og:description" content="Why we need to read Makefile first  Makefile是编译的核心文件，我觉得需要先搞懂编译过程，也就是说先搞清楚一个操作系统到底应该需要哪些文件才能跑起来； 学习Makefile语法，尽管Modern C&amp;#x2F;C++可以使用CMake进行Makefile的自">
+  
+  <meta property="og:url" content="http://example.com/2023/08/23/xv6-Makefile%E8%A7%A3%E8%AF%BB/" />
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="xv6-Makefile解读">
+  
+  <meta name="twitter:description" content="Why we need to read Makefile first  Makefile是编译的核心文件，我觉得需要先搞懂编译过程，也就是说先搞清楚一个操作系统到底应该需要哪些文件才能跑起来； 学习Makefile语法，尽管Modern C&amp;#x2F;C++可以使用CMake进行Makefile的自">
+  
+  
+  <meta name="twitter:image" content="http://example.comundefined">
+  
+  <meta name="twitter:url" content="http://example.com/2023/08/23/xv6-Makefile%E8%A7%A3%E8%AF%BB/" />
+
+  <!-- Mobile Specific Metas
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Preload fonts
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link rel="preload" href="../fonts/dm-serif-display-v4-latin-regular.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="../fonts/inter-v2-latin-regular.woff2" as="font" type="font/woff2" crossorigin>
+
+  <!-- CSS
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  
+<link rel="stylesheet" href="/css/normalize.css">
+
+  
+<link rel="stylesheet" href="/css/skeleton.css">
+
+  
+<link rel="stylesheet" href="/css/custom.css">
+
+  
+<link rel="stylesheet" href="/css/prism-dark.css">
+
+  
+<link rel="stylesheet" href="/css/prism-line-numbers.css">
+
+  <!-- User css -->
+  
+  
+<link rel="stylesheet" href="/css/user.css">
+
+  
+
+  <!-- Favicon
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link rel="icon" type="image/png" href="/images/favicon.png">
+
+  <!-- Custom Theme Color Style
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <style>
+  a:not(.icon) {
+    text-decoration-color: #0FA0CE;
+    background-image: linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 0) 50%,
+      #0FA0CE 50%
+    );
+  }
+  blockquote {
+    border-left: 8px solid #0FA0CE;
+  }
+  .nanobar .bar {
+    background: #0FA0CE;
+  }
+  .button.button-primary:hover,
+  button.button-primary:hover,
+  input[type="submit"].button-primary:hover,
+  input[type="reset"].button-primary:hover,
+  input[type="button"].button-primary:hover,
+  .button.button-primary:focus,
+  button.button-primary:focus,
+  input[type="submit"].button-primary:focus,
+  input[type="reset"].button-primary:focus,
+  input[type="button"].button-primary:focus {
+    background-color: #0FA0CE;
+    border-color: #0FA0CE;
+  }
+  input[type="email"]:focus,
+  input[type="number"]:focus,
+  input[type="search"]:focus,
+  input[type="text"]:focus,
+  input[type="tel"]:focus,
+  input[type="url"]:focus,
+  input[type="password"]:focus,
+  textarea:focus,
+  select:focus {
+    border: 1px solid #0FA0CE;
+  }
+</style>
+
+  <!-- Google Analytics (With Privacy Settings On)
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+  <div class="container">
+    <div class="row">
+      <div>
+
+        <div class="row">
+  <div class="two columns" style="max-width: 50px">
+    <h1 class="mt-2 mode">
+      <div onclick=setDarkMode(true) id="darkBtn">😃</div>
+      <div onclick=setDarkMode(false) id="lightBtn" class=hidden>😎</div>
+      <script >
+        if (localStorage.getItem('preferredTheme') == 'dark') {
+          setDarkMode(true)
+        }
+        function setDarkMode(isDark) {
+          var darkBtn = document.getElementById('darkBtn')
+          var lightBtn = document.getElementById('lightBtn')
+          if (isDark) {
+            lightBtn.style.display = "block"
+            darkBtn.style.display = "none"
+            localStorage.setItem('preferredTheme', 'dark');
+          } else {
+            lightBtn.style.display = "none"
+            darkBtn.style.display = "block"
+            localStorage.removeItem('preferredTheme');
+          }
+          document.body.classList.toggle("darkmode");
+        }
+      </script>
+    </h1>
+  </div>
+
+  <div class="six columns ml-1">
+    <h1 class="mt-2">
+      Hi Guys.
+    </h1>
+  </div>
+
+  <div class="twelve columns">
+    <div class="row">
+      <div class="nine columns left">
+        <a href="/">Home</a>
+        
+          
+          <a href="/about" class="ml">About</a>
+          
+        
+        
+          
+            <a href="mailto:hencejacki@gmail.com" target="_blank" class="ml">Email</a>
+          
+        
+      </div>
+    </div>
+    <hr style="margin-bottom: 2.6rem">
+  </div>
+</div>
+
+        <div class="trans">
+            <h2>xv6-Makefile解读</h2>
+
+  <h2 id="Why-we-need-to-read-Makefile-first"><a href="#Why-we-need-to-read-Makefile-first" class="headerlink" title="Why we need to read Makefile first"></a>Why we need to read Makefile first</h2><blockquote>
+<ol>
+<li>Makefile是编译的核心文件，我觉得需要先搞懂编译过程，也就是说先搞清楚一个操作系统到底应该需要哪些文件才能跑起来；</li>
+<li>学习Makefile语法，尽管Modern C&#x2F;C++可以使用CMake进行Makefile的自动生成，但是那样不就多了一个步骤吗，直接上Makefile多好；</li>
+</ol>
+</blockquote>
+<h2 id="Prerequisite"><a href="#Prerequisite" class="headerlink" title="Prerequisite"></a>Prerequisite</h2><p>Download xv6 source code from github.</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">git</span> clone https://github.com/mit-pdos/xv6-public.git
+<span class="token builtin class-name">cd</span> xv6-public<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<h2 id="Start"><a href="#Start" class="headerlink" title="Start"></a>Start</h2><p><strong>链接文件声明</strong></p>
+<pre class="line-numbers language-Makefile" data-language="Makefile"><code class="language-Makefile">OBJS &#x3D; \
+	bio.o\
+	console.o\
+	exec.o\
+	file.o\
+	fs.o\
+	ide.o\
+	ioapic.o\
+	kalloc.o\
+	kbd.o\
+	lapic.o\
+	log.o\
+	main.o\
+	mp.o\
+	picirq.o\
+	pipe.o\
+	proc.o\
+	sleeplock.o\
+	spinlock.o\
+	string.o\
+	swtch.o\
+	syscall.o\
+	sysfile.o\
+	sysproc.o\
+	trapasm.o\
+	trap.o\
+	uart.o\
+	vectors.o\
+	vm.o\<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>这一连串的*.o文件其实就是gcc经过<strong>预处理、编译、汇编、链接</strong>产生的ELF文件(<a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Executable_and_Linkable_Format">Executable and Linkable Format</a>)，在这里声明的目的就是把这些文件再次链接成一个文件，最终形成一个操作系统镜像.</p>
+<p><strong>交叉编译工具链设置</strong></p>
+<pre class="line-numbers language-Makefile" data-language="Makefile"><code class="language-Makefile"># Cross-compiling (e.g., on Mac OS X)
+# TOOLPREFIX &#x3D; i386-jos-elf
+
+# Using native tools (e.g., on X86 Linux)
+#TOOLPREFIX &#x3D; <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>这里的注释主要是设置一些交叉编译的tool chain(Compiler,Linker,STL,Head File.etc)，所谓的交叉编译发生在编译平台与目标平台架构不一致的情况下，其目的主要是为了进行跨平台开发.</p>
+<p><strong>寻找交叉编译链</strong></p>
+<pre class="line-numbers language-Makefile" data-language="Makefile"><code class="language-Makefile"># Try to infer the correct TOOLPREFIX if not set
+ifndef TOOLPREFIX
+TOOLPREFIX :&#x3D; $(shell if i386-jos-elf-objdump -i 2&gt;&amp;1 | grep &#39;^elf32-i386$$&#39; &gt;&#x2F;dev&#x2F;null 2&gt;&amp;1; \
+	then echo &#39;i386-jos-elf-&#39;; \
+	elif objdump -i 2&gt;&amp;1 | grep &#39;elf32-i386&#39; &gt;&#x2F;dev&#x2F;null 2&gt;&amp;1; \
+	then echo &#39;&#39;; \
+	else echo &quot;***&quot; 1&gt;&amp;2; \
+	echo &quot;*** Error: Couldn&#39;t find an i386-*-elf version of GCC&#x2F;binutils.&quot; 1&gt;&amp;2; \
+	echo &quot;*** Is the directory with i386-jos-elf-gcc in your PATH?&quot; 1&gt;&amp;2; \
+	echo &quot;*** If your i386-*-elf toolchain is installed with a command&quot; 1&gt;&amp;2; \
+	echo &quot;*** prefix other than &#39;i386-jos-elf-&#39;, set your TOOLPREFIX&quot; 1&gt;&amp;2; \
+	echo &quot;*** environment variable to that prefix and run &#39;make&#39; again.&quot; 1&gt;&amp;2; \
+	echo &quot;*** To turn off this error, run &#39;gmake TOOLPREFIX&#x3D; ...&#39;.&quot; 1&gt;&amp;2; \
+	echo &quot;***&quot; 1&gt;&amp;2; exit 1; fi)
+endif<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>这段主要是在本机上寻找交叉编译工具: <code>i386-jos-elf-objdump</code>, <code>elf32-i386</code>， <code>objdump</code>等.<br><code>i386-jos-elf-objdump -i</code>等价于<code>objdump -i</code>，其中的<code>-i</code>参数会展示所有支持的arch，然后依靠管道传给<code>grep</code>程序查找对应的x86格式是否被支持.</p>
+<p><strong>寻找QEMU-emulator</strong></p>
+<p>这里选用<code>qemu</code>作为该操作系统运行的容器，可以将其当作一个虚拟机.</p>
+<pre class="line-numbers language-Makefile" data-language="Makefile"><code class="language-Makefile"># If the makefile can&#39;t find QEMU, specify its path here
+# QEMU &#x3D; qemu-system-i386
+
+# Try to infer the correct QEMU
+ifndef QEMU
+QEMU &#x3D; $(shell if which qemu &gt; &#x2F;dev&#x2F;null; \
+	then echo qemu; exit; \
+	elif which qemu-system-i386 &gt; &#x2F;dev&#x2F;null; \
+	then echo qemu-system-i386; exit; \
+	elif which qemu-system-x86_64 &gt; &#x2F;dev&#x2F;null; \
+	then echo qemu-system-x86_64; exit; \
+	else \
+	qemu&#x3D;&#x2F;Applications&#x2F;Q.app&#x2F;Contents&#x2F;MacOS&#x2F;i386-softmmu.app&#x2F;Contents&#x2F;MacOS&#x2F;i386-softmmu; \
+	if test -x $$qemu; then echo $$qemu; exit; fi; fi; \
+	echo &quot;***&quot; 1&gt;&amp;2; \
+	echo &quot;*** Error: Couldn&#39;t find a working QEMU executable.&quot; 1&gt;&amp;2; \
+	echo &quot;*** Is the directory containing the qemu binary in your PATH&quot; 1&gt;&amp;2; \
+	echo &quot;*** or have you tried setting the QEMU variable in Makefile?&quot; 1&gt;&amp;2; \
+	echo &quot;***&quot; 1&gt;&amp;2; exit 1)
+endif<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>这里也是在寻找<code>qemu</code>，没有的话就会直接退出.</p>
+<p><strong>编译项设置</strong></p>
+<p>编译工具都找到了，这时就可以开始设定一些编译项，比如指定编译器、汇编器、连接器等.</p>
+<pre class="line-numbers language-Makefile" data-language="Makefile"><code class="language-Makefile">CC &#x3D; $(TOOLPREFIX)gcc
+AS &#x3D; $(TOOLPREFIX)gas
+LD &#x3D; $(TOOLPREFIX)ld
+OBJCOPY &#x3D; $(TOOLPREFIX)objcopy
+OBJDUMP &#x3D; $(TOOLPREFIX)objdump
+CFLAGS &#x3D; -fno-pic -static -fno-builtin -fno-strict-aliasing -O2 -Wall -MD -ggdb -m32 -Werror -fno-omit-frame-pointer
+CFLAGS +&#x3D; $(shell $(CC) -fno-stack-protector -E -x c &#x2F;dev&#x2F;null &gt;&#x2F;dev&#x2F;null 2&gt;&amp;1 &amp;&amp; echo -fno-stack-protector)
+ASFLAGS &#x3D; -m32 -gdwarf-2 -Wa,-divide
+# FreeBSD ld wants &#96;&#96;elf_i386_fbsd&#39;&#39;
+LDFLAGS +&#x3D; -m $(shell $(LD) -V | grep elf_i386 2&gt;&#x2F;dev&#x2F;null | head -n 1)
+
+# Disable PIE when possible (for Ubuntu 16.10 toolchain)
+ifneq ($(shell $(CC) -dumpspecs 2&gt;&#x2F;dev&#x2F;null | grep -e &#39;[^f]no-pie&#39;),)
+CFLAGS +&#x3D; -fno-pie -no-pie
+endif
+ifneq ($(shell $(CC) -dumpspecs 2&gt;&#x2F;dev&#x2F;null | grep -e &#39;[^f]nopie&#39;),)
+CFLAGS +&#x3D; -fno-pie -nopie
+endif<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<ul>
+<li><code>CC</code>：指定编译器为<code>gcc</code>;</li>
+<li><code>AS</code>：指定汇编器为<code>gas</code>，然而在context中未找到该项的具体用途:);</li>
+<li><code>LD</code>：指定链接器为<code>ld</code>;</li>
+<li><code>OBJCOPY</code>：指定二进制文件操作工具为<code>objcopy</code>，用于处理和操作二进制文件，尤其是格式转换，即从一个目标平台移植代码到另一个平台;</li>
+<li><code>OBJDUMP</code>：指定二进制文件查看工具为<code>objdump</code>，用于展示目标文件的信息，针对ELF文件则展示其文件结构等信息;</li>
+<li><code>CFLAGS</code>：指定编译选项和标志;<ul>
+<li><code>-fno-pic</code>：禁用位置无关代码 (Position Independent Code)，这意味着生成的二进制文件在内存中的位置是固定的，不会受到地址随机化的影响;</li>
+<li><code>-static</code>： 要求生成的可执行文件是静态链接的，即所有的依赖库都会被嵌入到可执行文件中，而不是在运行时动态加载;</li>
+<li><code>-fno-builtin</code>：禁用内置函数，编译器不会将一些标准库函数作为内置函数优化;</li>
+<li><code>-fno-strict-aliasing</code>：禁用严格别名规则检查，允许在不违反 C 语言规范的情况下使用别名引用不同类型的数据;</li>
+<li><code>-O2</code>：启用优化级别 2，这是中等优化级别，通常用于生成高性能的可执行文件;</li>
+<li><code>-Wall</code>：启用所有警告信息，编译器会报告代码中的潜在问题;</li>
+<li><code>-MD</code>：自动生成依赖关系文件，这些文件用于跟踪源代码文件之间的依赖关系;</li>
+<li><code>-ggdb</code>：在可执行文件中包含调试信息，以便用<code>GDB</code>工具调试;</li>
+<li><code>-m32</code>：生成32位目标代码，适用于32位体系结构的目标平台;</li>
+<li><code>-Werror</code>：将警告视为错误，这意味着任何警告都会导致编译失败;</li>
+<li><code>-fno-omit-frame-pointer</code>：禁止省略帧指针，保留帧指针用于调试目的;</li>
+<li><code>-fno-stack-protector</code>：禁用栈保护功能。栈保护功能是一种安全机制，用于检测和防止栈溢出攻击;</li>
+</ul>
+</li>
+<li><code>ASFLAGS</code>：指定汇编选项;<ul>
+<li><code>-m32</code>：选择字长，可选参数有32位,64位;</li>
+<li><code>-gdwarf-2</code>: 位每一行汇编代码生成调试信息;</li>
+<li><code>-Wa</code>：将一些额外的选项传递给汇编器;</li>
+<li><code>-divide</code>：用于转换<code>/</code>符号，在一些SVR4继承的平台上，<code>/</code>会被当作注释符号，经过转换就可以在表达式中使用该符号;</li>
+</ul>
+</li>
+<li><code>LDFLAGS</code>；指定链接选项;<ul>
+<li><code>-m</code>：指定链接器生成的目标文件体系架构，后续来看是<code>elf_i386</code>格式;</li>
+</ul>
+</li>
+<li><code>-dumpspecs</code>：用于获取<code>GCC</code>的规范信息，后续进行查找<code>fno-pie</code>字符串，用于禁用<code>PIE</code>功能，该功能用于随机化文件的内存布局，降低潜在漏洞带来的风险;</li>
+</ul>
+<p><strong>xv6磁盘镜像生成</strong></p>
+<pre class="line-numbers language-Makefile" data-language="Makefile"><code class="language-Makefile">xv6.img: bootblock kernel
+	dd if&#x3D;&#x2F;dev&#x2F;zero of&#x3D;xv6.img count&#x3D;10000
+	dd if&#x3D;bootblock of&#x3D;xv6.img conv&#x3D;notrunc
+	dd if&#x3D;kernel of&#x3D;xv6.img seek&#x3D;1 conv&#x3D;notrunc<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+
+<ul>
+<li><code>xv6.img: bootblock kernel</code>：目标文件为<code>xv6.img</code>，依赖于<code>bootblock kernel</code>这两个文件;</li>
+<li><code>dd if=/dev/zero of=xv6.img count=10000</code>：从<code>/dev/zero</code>中复制出10000个块的内容到<code>xv6.img</code>;</li>
+<li><code>dd if=bootblock of=xv6.img conv=notrunc</code>：将<code>bootblock</code>引导块内容复制到<code>xv6.img</code>中，不截断输出(即追加写)，保留文件的原始大小;</li>
+<li><code>dd if=kernel of=xv6.img seek=1 conv=notrunc</code>：从<code>xv6.img</code>的第一块之后写入<code>kernel</code>的内容，同样不截断输出文件;</li>
+</ul>
+<p><strong>xv6虚拟磁盘镜像生成</strong></p>
+<p>该镜像生成的目的是为了在内存中维护一个磁盘映像，之后操作系统访问文件都是从内存中访问，不必进行IO操作，这对于调试内核有很大帮助.</p>
+<pre class="line-numbers language-Makefile" data-language="Makefile"><code class="language-Makefile">xv6memfs.img: bootblock kernelmemfs
+	dd if&#x3D;&#x2F;dev&#x2F;zero of&#x3D;xv6memfs.img count&#x3D;10000
+	dd if&#x3D;bootblock of&#x3D;xv6memfs.img conv&#x3D;notrunc
+	dd if&#x3D;kernelmemfs of&#x3D;xv6memfs.img seek&#x3D;1 conv&#x3D;notrunc
+
+# kernelmemfs is a copy of kernel that maintains the
+# disk image in memory instead of writing to a disk.
+# This is not so useful for testing persistent storage or
+# exploring disk buffering implementations, but it is
+# great for testing the kernel on real hardware without
+# needing a scratch disk.
+MEMFSOBJS &#x3D; $(filter-out ide.o,$(OBJS)) memide.o
+kernelmemfs: $(MEMFSOBJS) entry.o entryother initcode kernel.ld fs.img
+	$(LD) $(LDFLAGS) -T kernel.ld -o kernelmemfs entry.o  $(MEMFSOBJS) -b binary initcode entryother fs.img
+	$(OBJDUMP) -S kernelmemfs &gt; kernelmemfs.asm
+	$(OBJDUMP) -t kernelmemfs | sed &#39;1,&#x2F;SYMBOL TABLE&#x2F;d; s&#x2F; .* &#x2F; &#x2F;; &#x2F;^$$&#x2F;d&#39; &gt; kernelmemfs.sym<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>从构建部分也能看出，去掉了<code>ide.o</code>的IO操作文件，加上了<code>memide.o</code>这样的内存IO文件.</p>
+<p><strong>Bootloader引导块构建</strong></p>
+<p>该项输出文件目的在于加载操作系统内核</p>
+<pre class="line-numbers language-Makefile" data-language="Makefile"><code class="language-Makefile">bootblock: bootasm.S bootmain.c
+	$(CC) $(CFLAGS) -fno-pic -O -nostdinc -I. -c bootmain.c
+	$(CC) $(CFLAGS) -fno-pic -nostdinc -I. -c bootasm.S
+	$(LD) $(LDFLAGS) -N -e start -Ttext 0x7C00 -o bootblock.o bootasm.o bootmain.o
+	$(OBJDUMP) -S bootblock.o &gt; bootblock.asm
+	$(OBJCOPY) -S -O binary -j .text bootblock.o bootblock
+	.&#x2F;sign.pl bootblock<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>该项目标文件的构建依赖于<code>bootasm.S bootmain.c</code>，这两个文件一个是用汇编写的，一个用C语言写的，其中C语言文件采用内联汇编的形式使其可以使用x86指令集.</p>
+<ul>
+<li><code>-fno-pic</code>：内存位置固定，不受地址随机化影响;</li>
+<li><code>-nostdinc</code>：不包含标准头文件;</li>
+<li><code>-c</code>：表明不执行链接操作，最终输出文件仅包含汇编器输出内容;</li>
+<li><code>-N</code>：指示链接器不要添加特殊标志或信息到目标文件中，以确保生成的二进制文件是简单的可执行文件;</li>
+<li><code>-e</code>：指定程序入口地址为<code>start</code>;</li>
+<li><code>-Ttext 0x7C00</code>：指定代码加载地址;</li>
+<li><code>-S</code>：表明在生成反汇编输出的同时输出源代码;</li>
+<li><code>-O</code>：启动二进制优化，即复制出来的二进制文件没有额外信息;</li>
+<li><code>-j .text</code>：用于执行需要复制的<code>section</code>，这里指定为代码段内容，无需其他信息;</li>
+<li><code>./sign.pl bootblock</code>：用于给bootblock签名，防止引导加载程序被篡改;</li>
+</ul>
+<p><strong>入口点文件构建</strong></p>
+<pre class="line-numbers language-Makefile" data-language="Makefile"><code class="language-Makefile">entryother: entryother.S
+	$(CC) $(CFLAGS) -fno-pic -nostdinc -I. -c entryother.S
+	$(LD) $(LDFLAGS) -N -e start -Ttext 0x7000 -o bootblockother.o entryother.o
+	$(OBJCOPY) -S -O binary -j .text bootblockother.o entryother
+	$(OBJDUMP) -S bootblockother.o &gt; entryother.asm<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>由<code>bootmain.c</code>调用该入口点.</p>
+<p><strong>初始进程调用构建</strong></p>
+<pre class="line-numbers language-Makefile" data-language="Makefile"><code class="language-Makefile">initcode: initcode.S
+	$(CC) $(CFLAGS) -nostdinc -I. -c initcode.S
+	$(LD) $(LDFLAGS) -N -e start -Ttext 0 -o initcode.out initcode.o
+	$(OBJCOPY) -S -O binary initcode.out initcode
+	$(OBJDUMP) -S initcode.o &gt; initcode.asm<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>执行<code>/init</code>程序.</p>
+<p><strong>kernel编译</strong></p>
+<pre class="line-numbers language-Makefile" data-language="Makefile"><code class="language-Makefile">kernel: $(OBJS) entry.o entryother initcode kernel.ld
+	$(LD) $(LDFLAGS) -T kernel.ld -o kernel entry.o $(OBJS) -b binary initcode entryother
+	$(OBJDUMP) -S kernel &gt; kernel.asm
+	$(OBJDUMP) -t kernel | sed &#39;1,&#x2F;SYMBOL TABLE&#x2F;d; s&#x2F; .* &#x2F; &#x2F;; &#x2F;^$$&#x2F;d&#39; &gt; kernel.sym<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p><strong>代码索引生成+中断向量表生成</strong></p>
+<pre class="line-numbers language-Makefile" data-language="Makefile"><code class="language-Makefile">tags: $(OBJS) entryother.S _init
+	etags *.S *.c
+
+vectors.S: vectors.pl
+	.&#x2F;vectors.pl &gt; vectors.S<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p><strong>通用工具链生成</strong></p>
+<pre class="line-numbers language-Makefile" data-language="Makefile"><code class="language-Makefile">ULIB &#x3D; ulib.o usys.o printf.o umalloc.o
+
+_%: %.o $(ULIB)
+	$(LD) $(LDFLAGS) -N -e main -Ttext 0 -o $@ $^
+	$(OBJDUMP) -S $@ &gt; $*.asm
+	$(OBJDUMP) -t $@ | sed &#39;1,&#x2F;SYMBOL TABLE&#x2F;d; s&#x2F; .* &#x2F; &#x2F;; &#x2F;^$$&#x2F;d&#39; &gt; $*.sym
+
+_forktest: forktest.o $(ULIB)
+	# forktest has less library code linked in - needs to be small
+	# in order to be able to max out the proc table.
+	$(LD) $(LDFLAGS) -N -e main -Ttext 0 -o _forktest forktest.o ulib.o usys.o
+	$(OBJDUMP) -S _forktest &gt; forktest.asm
+
+mkfs: mkfs.c fs.h
+	gcc -Werror -Wall -o mkfs mkfs.c<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>这里的<code>_%</code>表示一个通配符规则，上面提到的<code>_init</code>就会在这里进行编译和链接.</p>
+<p><strong>用户工具链生成</strong></p>
+<pre class="line-numbers language-Makefile" data-language="Makefile"><code class="language-Makefile">UPROGS&#x3D;\
+	_cat\
+	_echo\
+	_forktest\
+	_grep\
+	_init\
+	_kill\
+	_ln\
+	_ls\
+	_mkdir\
+	_rm\
+	_sh\
+	_stressfs\
+	_usertests\
+	_wc\
+	_zombie\
+
+fs.img: mkfs README $(UPROGS)
+	.&#x2F;mkfs fs.img README $(UPROGS)
+
+-include *.d<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<ul>
+<li>这里的<code>UPROGS</code>会匹配到上面提到的规则进行编译链接，从而生成相应的工具;</li>
+<li><code>-include *.d</code>：用于从外部引入自定义编译规则;</li>
+</ul>
+<p><strong>打印xv6文档</strong></p>
+<pre class="line-numbers language-Makefile" data-language="Makefile"><code class="language-Makefile"># make a printout
+FILES &#x3D; $(shell grep -v &#39;^\#&#39; runoff.list)
+PRINT &#x3D; runoff.list runoff.spec README toc.hdr toc.ftr $(FILES)
+
+xv6.pdf: $(PRINT)
+	.&#x2F;runoff
+	ls -l xv6.pdf
+
+print: xv6.pdf<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p><strong>虚拟机仿真</strong></p>
+<pre class="line-numbers language-Makefile" data-language="Makefile"><code class="language-Makefile"># run in emulators
+
+bochs : fs.img xv6.img
+	if [ ! -e .bochsrc ]; then ln -s dot-bochsrc .bochsrc; fi
+	bochs -q
+
+# try to generate a unique GDB port
+GDBPORT &#x3D; $(shell expr &#96;id -u&#96; % 5000 + 25000)
+# QEMU&#39;s gdb stub command line changed in 0.11
+QEMUGDB &#x3D; $(shell if $(QEMU) -help | grep -q &#39;^-gdb&#39;; \
+	then echo &quot;-gdb tcp::$(GDBPORT)&quot;; \
+	else echo &quot;-s -p $(GDBPORT)&quot;; fi)
+ifndef CPUS
+CPUS :&#x3D; 2
+endif
+QEMUOPTS &#x3D; -drive file&#x3D;fs.img,index&#x3D;1,media&#x3D;disk,format&#x3D;raw -drive file&#x3D;xv6.img,index&#x3D;0,media&#x3D;disk,format&#x3D;raw -smp $(CPUS) -m 512 $(QEMUEXTRA)
+
+qemu: fs.img xv6.img
+	$(QEMU) -serial mon:stdio $(QEMUOPTS)
+
+qemu-memfs: xv6memfs.img
+	$(QEMU) -drive file&#x3D;xv6memfs.img,index&#x3D;0,media&#x3D;disk,format&#x3D;raw -smp $(CPUS) -m 256
+
+qemu-nox: fs.img xv6.img
+	$(QEMU) -nographic $(QEMUOPTS)
+
+.gdbinit: .gdbinit.tmpl
+	sed &quot;s&#x2F;localhost:1234&#x2F;localhost:$(GDBPORT)&#x2F;&quot; &lt; $^ &gt; $@
+
+qemu-gdb: fs.img xv6.img .gdbinit
+	@echo &quot;*** Now run &#39;gdb&#39;.&quot; 1&gt;&amp;2
+	$(QEMU) -serial mon:stdio $(QEMUOPTS) -S $(QEMUGDB)
+
+qemu-nox-gdb: fs.img xv6.img .gdbinit
+	@echo &quot;*** Now run &#39;gdb&#39;.&quot; 1&gt;&amp;2
+	$(QEMU) -nographic $(QEMUOPTS) -S $(QEMUGDB)<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>这里有两种虚拟机：<code>bochs</code>以及<code>qemu</code>，根据个人喜好选择.</p>
+<p><strong>分发+打包</strong></p>
+<pre class="line-numbers language-Makefile" data-language="Makefile"><code class="language-Makefile"># CUT HERE
+# prepare dist for students
+# after running make dist, probably want to
+# rename it to rev0 or rev1 or so on and then
+# check in that version.
+
+EXTRA&#x3D;\
+	mkfs.c ulib.c user.h cat.c echo.c forktest.c grep.c kill.c\
+	ln.c ls.c mkdir.c rm.c stressfs.c usertests.c wc.c zombie.c\
+	printf.c umalloc.c\
+	README dot-bochsrc *.pl toc.* runoff runoff1 runoff.list\
+	.gdbinit.tmpl gdbutil\
+
+dist:
+	rm -rf dist
+	mkdir dist
+	for i in $(FILES); \
+	do \
+		grep -v PAGEBREAK $$i &gt;dist&#x2F;$$i; \
+	done
+	sed &#39;&#x2F;CUT HERE&#x2F;,$$d&#39; Makefile &gt;dist&#x2F;Makefile
+	echo &gt;dist&#x2F;runoff.spec
+	cp $(EXTRA) dist
+
+dist-test:
+	rm -rf dist
+	make dist
+	rm -rf dist-test
+	mkdir dist-test
+	cp dist&#x2F;* dist-test
+	cd dist-test; $(MAKE) print
+	cd dist-test; $(MAKE) bochs || true
+	cd dist-test; $(MAKE) qemu
+
+# update this rule (change rev#) when it is time to
+# make a new revision.
+tar:
+	rm -rf &#x2F;tmp&#x2F;xv6
+	mkdir -p &#x2F;tmp&#x2F;xv6
+	cp dist&#x2F;* dist&#x2F;.gdbinit.tmpl &#x2F;tmp&#x2F;xv6
+	(cd &#x2F;tmp; tar cf - xv6) | gzip &gt;xv6-rev10.tar.gz  # the next one will be 10 (9&#x2F;17)
+
+.PHONY: dist-test dist<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<ul>
+<li><code>.PHONY</code>：表示后续声明的目标只是一组操作，不代表实际的文件名;</li>
+<li><code>.PRECIOUS: %.o</code>：确保 make 不会删除一些重要的中间文件，以便在构建过程的后续步骤中使用;</li>
+</ul>
+<p>以上就是对于<code>Makefile</code>的解读，结论是，Make会以一个目标规则为单位执行，目标规则之间会有相互引用，理解其编译过程，更好地把握整体运行机制，当然，学习<code>Makefile</code>语法也是其中之一:)</p>
+
+  <p><a class="classtest-link" href="/tags/OS/" rel="tag">OS</a> — Aug 23, 2023</p>
+  
+
+
+          <div class="row mt-2">
+  
+    <div class="eight columns">
+      <p id="madewith">Made with ❤ and
+        <a class="footer-link icon" href="https://hexo.io" target="_blank" style="text-decoration: none;" rel="noreferrer" aria-label="Hexo.io">
+        <svg class="hexo svg-hov" width="14" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><title>Hexo.js</title><path d="M12 .007L1.57 6.056V18.05L12 23.995l10.43-6.049V5.952L12 .007zm4.798 17.105l-.939.521-.939-.521V12.94H9.08v4.172l-.94.521-.938-.521V6.89l.939-.521.939.521v4.172h5.84V6.89l.94-.521.938.521v10.222z"/></svg>
+        </a>
+        
+        at <a href="https://en.wikipedia.org/wiki/Earth" target="_blank" rel="noreferrer">Earth</a>.</p>
+        
+    </div>
+
+    <!-- Sepcial thanks to https://simpleicons.org/ for the icons -->
+    <div class="four columns mb-3 posisi" >
+      
+      <a class="ml-0 footer-link icon" href="https://github.com/hencejacki" target="_blank" style="text-decoration: none" rel="noreferrer" aria-label="GitHub">
+        <svg class="github svg-hov" width="18" role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>GitHub</title><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
+      </a>
+      
+
+      
+
+      
+      <a class="ml-0 footer-link icon" href="https://twitter.com/hencejacks" target="_blank" style="text-decoration: none" rel="noreferrer" aria-label="Twitter">
+        <svg class="twitter svg-hov" width="18" role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>Twitter</title><path d="M23.954 4.569c-.885.389-1.83.654-2.825.775 1.014-.611 1.794-1.574 2.163-2.723-.951.555-2.005.959-3.127 1.184-.896-.959-2.173-1.559-3.591-1.559-2.717 0-4.92 2.203-4.92 4.917 0 .39.045.765.127 1.124C7.691 8.094 4.066 6.13 1.64 3.161c-.427.722-.666 1.561-.666 2.475 0 1.71.87 3.213 2.188 4.096-.807-.026-1.566-.248-2.228-.616v.061c0 2.385 1.693 4.374 3.946 4.827-.413.111-.849.171-1.296.171-.314 0-.615-.03-.916-.086.631 1.953 2.445 3.377 4.604 3.417-1.68 1.319-3.809 2.105-6.102 2.105-.39 0-.779-.023-1.17-.067 2.189 1.394 4.768 2.209 7.557 2.209 9.054 0 13.999-7.496 13.999-13.986 0-.209 0-.42-.015-.63.961-.689 1.8-1.56 2.46-2.548l-.047-.02z"/></svg>
+      </a>
+      
+
+      
+
+    </div>
+  
+</div>
+
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+  <script src="/js/nanobar.min.js"></script>
+  <script>
+    var options = {
+      classname: 'nanobar',
+      id: 'myNanobar'
+    };
+    var nanobar = new Nanobar(options);
+    nanobar.go(30);
+    nanobar.go(76);
+    nanobar.go(100);
+  </script>
+
+</body>
+
+</html>
