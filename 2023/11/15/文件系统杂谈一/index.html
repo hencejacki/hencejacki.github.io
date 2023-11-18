@@ -11,34 +11,34 @@
   <meta charset="utf-8">
 
   
-  <title>All Posts - Hence Jacki</title>
+  <title>文件系统杂谈一</title>
   
-  <link rel="canonical" href="http://example.com/archives/">
+  <link rel="canonical" href="http://example.com/2023/11/15/%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F%E6%9D%82%E8%B0%88%E4%B8%80/">
   
-  <meta name="description" content="Seize a chance, learn to review">
+  <meta name="description" content="本文看点  挂载点存在的意义 文件系统组成   挂载点存在的意义在Linux系统中有这样一个概念：一切皆文件，磁盘更是如此。在Linux中，磁盘一般被表示为：/dev/sd[a-z]或者其他什么形式。 如果想要使用这个磁盘来存储数据的话，一般步骤如下：  磁盘分区； 文件系统格式化； 挂载 开始使用">
   
   
   <meta name="author" content="Hence Jacki">
   
-  <meta property="og:image" content="http://example.com/images/thumbnail.jpg">
+  <meta property="og:image" content="http://example.comundefined">
   
   <meta property="og:site_name" content="Just Go" />
   <meta property="og:type" content="article" />
-  <meta property="og:title" content="All Posts - Hence Jacki" />
+  <meta property="og:title" content="文件系统杂谈一" />
   
-  <meta property="og:description" content="Seize a chance, learn to review">
+  <meta property="og:description" content="本文看点  挂载点存在的意义 文件系统组成   挂载点存在的意义在Linux系统中有这样一个概念：一切皆文件，磁盘更是如此。在Linux中，磁盘一般被表示为：/dev/sd[a-z]或者其他什么形式。 如果想要使用这个磁盘来存储数据的话，一般步骤如下：  磁盘分区； 文件系统格式化； 挂载 开始使用">
   
-  <meta property="og:url" content="http://example.com/archives/" />
+  <meta property="og:url" content="http://example.com/2023/11/15/%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F%E6%9D%82%E8%B0%88%E4%B8%80/" />
 
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="All Posts - Hence Jacki">
+  <meta name="twitter:title" content="文件系统杂谈一">
   
-  <meta name="twitter:description" content="Seize a chance, learn to review">
+  <meta name="twitter:description" content="本文看点  挂载点存在的意义 文件系统组成   挂载点存在的意义在Linux系统中有这样一个概念：一切皆文件，磁盘更是如此。在Linux中，磁盘一般被表示为：/dev/sd[a-z]或者其他什么形式。 如果想要使用这个磁盘来存储数据的话，一般步骤如下：  磁盘分区； 文件系统格式化； 挂载 开始使用">
   
   
-  <meta name="twitter:image" content="http://example.com/images/thumbnail.jpg">
+  <meta name="twitter:image" content="http://example.comundefined">
   
-  <meta name="twitter:url" content="http://example.com/archives/" />
+  <meta name="twitter:url" content="http://example.com/2023/11/15/%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F%E6%9D%82%E8%B0%88%E4%B8%80/" />
 
   <!-- Mobile Specific Metas
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
@@ -185,186 +185,47 @@
 </div>
 
         <div class="trans">
-          
-<h2>All Posts</h2>
+            <h2>文件系统杂谈一</h2>
 
+  <h2 id="本文看点"><a href="#本文看点" class="headerlink" title="本文看点"></a>本文看点</h2><blockquote>
+<ul>
+<li>挂载点存在的意义</li>
+<li>文件系统组成</li>
+</ul>
+</blockquote>
+<h2 id="挂载点存在的意义"><a href="#挂载点存在的意义" class="headerlink" title="挂载点存在的意义"></a>挂载点存在的意义</h2><p>在Linux系统中有这样一个概念：<strong>一切皆文件</strong>，磁盘更是如此。在Linux中，<br>磁盘一般被表示为：<code>/dev/sd[a-z]</code>或者其他什么形式。</p>
+<p>如果想要使用这个磁盘来存储数据的话，一般步骤如下：</p>
+<ul>
+<li>磁盘分区；</li>
+<li>文件系统格式化；</li>
+<li>挂载</li>
+<li>开始使用</li>
+</ul>
+<p>可见，挂载是使用磁盘的最后一步。要想理解挂载的意义，需要解答下面几个问题：</p>
+<ul>
+<li>挂载的对象是什么？</li>
+<li>挂载目的是什么？</li>
+</ul>
+<p>首先需要明确挂载的对象是什么，是<strong>文件系统而非分区</strong>。</p>
+<p>接着就是目的了，是<strong>将文件系统与目录树结合起来</strong>。</p>
+<p>这个文件系统就是将磁盘扇区存储以一定形式组织起来并加以辅助信息，那这个目录树是个啥东西？</p>
+<p>顾名思义，将目录以树的形式组织起来，那目录有啥用嘞？emm…，访问一个文件总得知道它的路径吧，<br>那目录就是干这个事儿的。</p>
+<p>综上，单挂一个文件系统没用，只是一些inode，数据区块而已，要想访问文件还是要依靠目录树的协助。<br>挂载就是将这两者结合起来，是磁盘真正变得可用。</p>
+<h2 id="文件系统组成"><a href="#文件系统组成" class="headerlink" title="文件系统组成"></a>文件系统组成</h2><ul>
+<li>超级区块：记录文件系统的整体信息，如inode和数据区块的总量、使用量、剩余量以及文件系统格式与相关信息；</li>
+<li>inode区块：存放关于目录的权限与文件属性，以及数据区块的区块号码；</li>
+<li>数据区块：记录文件实际内容，文件过大时将分为多个区块；</li>
+</ul>
+<p>一个文件的访问过程如下：</p>
+<p>访问文件：<code>/etc/passwd</code></p>
+<ul>
+<li>通过挂载点信息得知<code>/</code>的inode号码；</li>
+<li>找到<code>etc/</code>目录的inode号码，找到<code>passwd</code>的inode号码；</li>
+<li>读取数据区块；</li>
+</ul>
 
-    <article>
-      <div class="row">
-
-        <div class="three columns left lit">
-          <p class="bottom">Nov 18, 2023</p>
-        </div>
-        <div class="nine columns left mb-3">
-          <a href="/2023/11/18/LVM%E9%85%8D%E7%BD%AE%E4%BD%BF%E7%94%A8/" class="">
-            
-              LVM配置使用
-            
-          </a>
-        </div>
-      </div>
-    </article>
-
-    <article>
-      <div class="row">
-
-        <div class="three columns left lit">
-          <p class="bottom">Nov 15, 2023</p>
-        </div>
-        <div class="nine columns left mb-3">
-          <a href="/2023/11/15/%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F%E6%9D%82%E8%B0%88%E4%B8%80/" class="">
-            
-              文件系统杂谈一
-            
-          </a>
-        </div>
-      </div>
-    </article>
-
-    <article>
-      <div class="row">
-
-        <div class="three columns left lit">
-          <p class="bottom">Nov 13, 2023</p>
-        </div>
-        <div class="nine columns left mb-3">
-          <a href="/2023/11/13/%E7%BB%88%E7%AB%AF%E8%BF%90%E8%A1%8C%E4%B8%80%E4%B8%AA%E5%83%8F%E7%B4%A0%E9%A3%8E%E6%B5%8F%E8%A7%88%E5%99%A8/" class="">
-            
-              终端运行一个像素风浏览器
-            
-          </a>
-        </div>
-      </div>
-    </article>
-
-    <article>
-      <div class="row">
-
-        <div class="three columns left lit">
-          <p class="bottom">Nov 10, 2023</p>
-        </div>
-        <div class="nine columns left mb-3">
-          <a href="/2023/11/10/Hadoop%E4%B9%8B%E4%B8%BB%E6%9C%BA%E8%AE%BF%E9%97%AE%E8%99%9A%E6%8B%9F%E6%9C%BA%E5%A4%B1%E8%B4%A5%E7%AD%89%E8%8B%A5%E5%B9%B2%E9%97%AE%E9%A2%98/" class="">
-            
-              关于Hadoop之主机访问虚拟机失败等若干问题
-            
-          </a>
-        </div>
-      </div>
-    </article>
-
-    <article>
-      <div class="row">
-
-        <div class="three columns left lit">
-          <p class="bottom">Oct 19, 2023</p>
-        </div>
-        <div class="nine columns left mb-3">
-          <a href="/2023/10/19/%E7%A8%8B%E5%BA%8F%E4%BE%9D%E8%B5%96%E5%BA%93%E5%88%86%E6%9E%90/" class="">
-            
-              程序依赖库分析
-            
-          </a>
-        </div>
-      </div>
-    </article>
-
-    <article>
-      <div class="row">
-
-        <div class="three columns left lit">
-          <p class="bottom">Oct 14, 2023</p>
-        </div>
-        <div class="nine columns left mb-3">
-          <a href="/2023/10/14/Anaconda%E4%B9%8BLinux%E5%AE%89%E8%A3%85/" class="">
-            
-              Anaconda之Linux安装
-            
-          </a>
-        </div>
-      </div>
-    </article>
-
-    <article>
-      <div class="row">
-
-        <div class="three columns left lit">
-          <p class="bottom">Oct 6, 2023</p>
-        </div>
-        <div class="nine columns left mb-3">
-          <a href="/2023/10/06/VMWare%E4%B9%8Bvmtools%E5%AE%89%E8%A3%85/" class="">
-            
-              VMWare之vmtools安装
-            
-          </a>
-        </div>
-      </div>
-    </article>
-
-    <article>
-      <div class="row">
-
-        <div class="three columns left lit">
-          <p class="bottom">Sep 12, 2023</p>
-        </div>
-        <div class="nine columns left mb-3">
-          <a href="/2023/09/12/%E6%95%B0%E5%AD%97%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86-1/" class="">
-            
-              数字图像处理-1
-            
-          </a>
-        </div>
-      </div>
-    </article>
-
-    <article>
-      <div class="row">
-
-        <div class="three columns left lit">
-          <p class="bottom">Aug 29, 2023</p>
-        </div>
-        <div class="nine columns left mb-3">
-          <a href="/2023/08/29/%E5%9B%9E%E6%BA%AF%E6%80%BB%E7%BB%93/" class="">
-            
-              回溯总结
-            
-          </a>
-        </div>
-      </div>
-    </article>
-
-    <article>
-      <div class="row">
-
-        <div class="three columns left lit">
-          <p class="bottom">Aug 29, 2023</p>
-        </div>
-        <div class="nine columns left mb-3">
-          <a href="/2023/08/29/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92%E6%80%BB%E7%BB%93/" class="">
-            
-              动态规划总结
-            
-          </a>
-        </div>
-      </div>
-    </article>
-
-<div class="pagination-bar">
-  <ul class="pagination">
-    
-    
-
-    <a class="" href="/archives/page/2/">
-      <span>Older</span>
-      <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-circle" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-        <path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
-        <path fill-rule="evenodd" d="M4 8a.5.5 0 0 0 .5.5h5.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5H4.5A.5.5 0 0 0 4 8z" />
-      </svg>
-    </a>
-
-    
-  </ul>
-</div>
+  <p><a class="classtest-link" href="/tags/Linux/" rel="tag">Linux</a>, <a class="classtest-link" href="/tags/%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F/" rel="tag">文件系统</a> — Nov 15, 2023</p>
+  
 
 
           <div class="row mt-2">

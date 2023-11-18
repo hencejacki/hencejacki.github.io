@@ -11,34 +11,34 @@
   <meta charset="utf-8">
 
   
-  <title>All Posts - Hence Jacki</title>
+  <title>LVM配置使用</title>
   
-  <link rel="canonical" href="http://example.com/archives/">
+  <link rel="canonical" href="http://example.com/2023/11/18/LVM%E9%85%8D%E7%BD%AE%E4%BD%BF%E7%94%A8/">
   
-  <meta name="description" content="Seize a chance, learn to review">
+  <meta name="description" content="LVM(Logical Volume Manager)：逻辑卷管理器。通过软件手法将几个物理分区(或磁盘)整合为一块“大磁盘”(VG-Volume Group，卷组)，再将VG划分为可使用的逻辑卷(LV)，最终通过挂载使用实现文件系统弹性扩容的美好目的。 LVM的组成(自底向上) PV(Physic">
   
   
   <meta name="author" content="Hence Jacki">
   
-  <meta property="og:image" content="http://example.com/images/thumbnail.jpg">
+  <meta property="og:image" content="http://example.comundefined">
   
   <meta property="og:site_name" content="Just Go" />
   <meta property="og:type" content="article" />
-  <meta property="og:title" content="All Posts - Hence Jacki" />
+  <meta property="og:title" content="LVM配置使用" />
   
-  <meta property="og:description" content="Seize a chance, learn to review">
+  <meta property="og:description" content="LVM(Logical Volume Manager)：逻辑卷管理器。通过软件手法将几个物理分区(或磁盘)整合为一块“大磁盘”(VG-Volume Group，卷组)，再将VG划分为可使用的逻辑卷(LV)，最终通过挂载使用实现文件系统弹性扩容的美好目的。 LVM的组成(自底向上) PV(Physic">
   
-  <meta property="og:url" content="http://example.com/archives/" />
+  <meta property="og:url" content="http://example.com/2023/11/18/LVM%E9%85%8D%E7%BD%AE%E4%BD%BF%E7%94%A8/" />
 
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="All Posts - Hence Jacki">
+  <meta name="twitter:title" content="LVM配置使用">
   
-  <meta name="twitter:description" content="Seize a chance, learn to review">
+  <meta name="twitter:description" content="LVM(Logical Volume Manager)：逻辑卷管理器。通过软件手法将几个物理分区(或磁盘)整合为一块“大磁盘”(VG-Volume Group，卷组)，再将VG划分为可使用的逻辑卷(LV)，最终通过挂载使用实现文件系统弹性扩容的美好目的。 LVM的组成(自底向上) PV(Physic">
   
   
-  <meta name="twitter:image" content="http://example.com/images/thumbnail.jpg">
+  <meta name="twitter:image" content="http://example.comundefined">
   
-  <meta name="twitter:url" content="http://example.com/archives/" />
+  <meta name="twitter:url" content="http://example.com/2023/11/18/LVM%E9%85%8D%E7%BD%AE%E4%BD%BF%E7%94%A8/" />
 
   <!-- Mobile Specific Metas
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
@@ -185,186 +185,49 @@
 </div>
 
         <div class="trans">
-          
-<h2>All Posts</h2>
+            <h2>LVM配置使用</h2>
 
+  <p>LVM(Logical Volume Manager)：逻辑卷管理器。通过<strong>软件手法</strong>将几个物理分区(或磁盘)整合为一块“大磁盘”(VG-Volume Group，<strong>卷组</strong>)，再将VG划分为可使用的<strong>逻辑卷</strong>(LV)，最终通过挂载使用实现<strong>文件系统弹性扩容</strong>的美好目的。</p>
+<h2 id="LVM的组成-自底向上"><a href="#LVM的组成-自底向上" class="headerlink" title="LVM的组成(自底向上)"></a>LVM的组成(自底向上)</h2><ul>
+<li>PV(Physical Volume)：物理卷。通过将实际物理分区系统标识符修改为<strong>8e</strong>，再通过<code>pvcreate</code>命令转换为PV后才可进行下一步使用；</li>
+<li>VG(Volume Group)：卷组。通过将多个PV整合为一个VG，其基本存储单位称为<strong>PE</strong>(Physical Extent)，类似于文件系统的Block。</li>
+<li>LV(Logical Volume)：逻辑卷。通过组合VG中的PE，从而形成逻辑卷。</li>
+</ul>
+<p><img src="/2023/11/18/LVM%E9%85%8D%E7%BD%AE%E4%BD%BF%E7%94%A8/vg_lv_pe.png" alt="VG与LV关系"></p>
+<h2 id="扩容-减量原理"><a href="#扩容-减量原理" class="headerlink" title="扩容&#x2F;减量原理"></a>扩容&#x2F;减量原理</h2><p>通过交换<strong>PE</strong>来进行数据转换，即将其他PE加入LV达到扩容目的，从LV中移除PE达到减量目的。</p>
+<h2 id="LVM配置流程"><a href="#LVM配置流程" class="headerlink" title="LVM配置流程"></a>LVM配置流程</h2><ol>
+<li>物理分区：通过<code>gdisk</code>或<code>fdisk</code>对实体磁盘进行物理分区；</li>
+<li>创建PV：通过<code>pvcreate</code>对物理分区进行创建PV的过程；</li>
+<li>创建VG：通过<code>vgcreate</code>对PV进行转换整合；</li>
+<li>创建LV：通过<code>lvcreate</code>从VG中进行逻辑卷划分；</li>
+</ol>
+<h2 id="LVM写入磁盘方式"><a href="#LVM写入磁盘方式" class="headerlink" title="LVM写入磁盘方式"></a>LVM写入磁盘方式</h2><ul>
+<li>线性模式：一块磁盘用完了再用另一块磁盘；</li>
+<li>交错模式：像RAID0一样的模式，将一块数据分为两份存储在两个磁盘上，读写性能比较好但容易有数据丢失的风险，所以不推荐使用；</li>
+</ul>
+<h2 id="LVM卸载与关闭"><a href="#LVM卸载与关闭" class="headerlink" title="LVM卸载与关闭"></a>LVM卸载与关闭</h2><ol>
+<li>卸载文件系统；</li>
+<li>删除LV；</li>
+<li>使指定VG失效；</li>
+<li>删除VG；</li>
+<li>删除PV；</li>
+<li>修改磁盘系统标识符；</li>
+</ol>
+<h2 id="LVM快照功能"><a href="#LVM快照功能" class="headerlink" title="LVM快照功能"></a>LVM快照功能</h2><p>快照区也是由多块PE组成的LV，只会在原始数据发生修改时迁移到快照区，未修改区域将于原文件系统共享。</p>
+<p>在使用快照恢复时，推荐的做法是使用文件系统备份工具为快照区制作一次备份，重新格式化原系统后使用该备份文件恢复即可。</p>
+<h2 id="LVM读写性能"><a href="#LVM读写性能" class="headerlink" title="LVM读写性能"></a>LVM读写性能</h2><pre class="line-numbers language-none"><code class="language-none">Test                        XFS on Partition        XFS on LVM
+Sequential Output, Block    1467995 K&#x2F;S, 94% CPU    1459880 K&#x2F;s, 95% CPU
+Sequential Output, Rewrite   457527 K&#x2F;S, 33% CPU     443076 K&#x2F;S, 33% CPU
 
-    <article>
-      <div class="row">
+Sequential Input, Block      899382 K&#x2F;s, 35% CPU     922884 K&#x2F;S, 32% CPU
 
-        <div class="three columns left lit">
-          <p class="bottom">Nov 18, 2023</p>
-        </div>
-        <div class="nine columns left mb-3">
-          <a href="/2023/11/18/LVM%E9%85%8D%E7%BD%AE%E4%BD%BF%E7%94%A8/" class="">
-            
-              LVM配置使用
-            
-          </a>
-        </div>
-      </div>
-    </article>
+Random Seeks                 415.0 &#x2F;sec.              411.9 &#x2F;sec.<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
-    <article>
-      <div class="row">
+<p>可见，在输入性能上稍优，不过日常使用与直接使用物理分区的性能差别不大。</p>
+<p>参考：<br><a target="_blank" rel="noopener" href="https://serverfault.com/questions/209461/lvm-performance-overhead">lvm-performance-overhead</a></p>
 
-        <div class="three columns left lit">
-          <p class="bottom">Nov 15, 2023</p>
-        </div>
-        <div class="nine columns left mb-3">
-          <a href="/2023/11/15/%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F%E6%9D%82%E8%B0%88%E4%B8%80/" class="">
-            
-              文件系统杂谈一
-            
-          </a>
-        </div>
-      </div>
-    </article>
-
-    <article>
-      <div class="row">
-
-        <div class="three columns left lit">
-          <p class="bottom">Nov 13, 2023</p>
-        </div>
-        <div class="nine columns left mb-3">
-          <a href="/2023/11/13/%E7%BB%88%E7%AB%AF%E8%BF%90%E8%A1%8C%E4%B8%80%E4%B8%AA%E5%83%8F%E7%B4%A0%E9%A3%8E%E6%B5%8F%E8%A7%88%E5%99%A8/" class="">
-            
-              终端运行一个像素风浏览器
-            
-          </a>
-        </div>
-      </div>
-    </article>
-
-    <article>
-      <div class="row">
-
-        <div class="three columns left lit">
-          <p class="bottom">Nov 10, 2023</p>
-        </div>
-        <div class="nine columns left mb-3">
-          <a href="/2023/11/10/Hadoop%E4%B9%8B%E4%B8%BB%E6%9C%BA%E8%AE%BF%E9%97%AE%E8%99%9A%E6%8B%9F%E6%9C%BA%E5%A4%B1%E8%B4%A5%E7%AD%89%E8%8B%A5%E5%B9%B2%E9%97%AE%E9%A2%98/" class="">
-            
-              关于Hadoop之主机访问虚拟机失败等若干问题
-            
-          </a>
-        </div>
-      </div>
-    </article>
-
-    <article>
-      <div class="row">
-
-        <div class="three columns left lit">
-          <p class="bottom">Oct 19, 2023</p>
-        </div>
-        <div class="nine columns left mb-3">
-          <a href="/2023/10/19/%E7%A8%8B%E5%BA%8F%E4%BE%9D%E8%B5%96%E5%BA%93%E5%88%86%E6%9E%90/" class="">
-            
-              程序依赖库分析
-            
-          </a>
-        </div>
-      </div>
-    </article>
-
-    <article>
-      <div class="row">
-
-        <div class="three columns left lit">
-          <p class="bottom">Oct 14, 2023</p>
-        </div>
-        <div class="nine columns left mb-3">
-          <a href="/2023/10/14/Anaconda%E4%B9%8BLinux%E5%AE%89%E8%A3%85/" class="">
-            
-              Anaconda之Linux安装
-            
-          </a>
-        </div>
-      </div>
-    </article>
-
-    <article>
-      <div class="row">
-
-        <div class="three columns left lit">
-          <p class="bottom">Oct 6, 2023</p>
-        </div>
-        <div class="nine columns left mb-3">
-          <a href="/2023/10/06/VMWare%E4%B9%8Bvmtools%E5%AE%89%E8%A3%85/" class="">
-            
-              VMWare之vmtools安装
-            
-          </a>
-        </div>
-      </div>
-    </article>
-
-    <article>
-      <div class="row">
-
-        <div class="three columns left lit">
-          <p class="bottom">Sep 12, 2023</p>
-        </div>
-        <div class="nine columns left mb-3">
-          <a href="/2023/09/12/%E6%95%B0%E5%AD%97%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86-1/" class="">
-            
-              数字图像处理-1
-            
-          </a>
-        </div>
-      </div>
-    </article>
-
-    <article>
-      <div class="row">
-
-        <div class="three columns left lit">
-          <p class="bottom">Aug 29, 2023</p>
-        </div>
-        <div class="nine columns left mb-3">
-          <a href="/2023/08/29/%E5%9B%9E%E6%BA%AF%E6%80%BB%E7%BB%93/" class="">
-            
-              回溯总结
-            
-          </a>
-        </div>
-      </div>
-    </article>
-
-    <article>
-      <div class="row">
-
-        <div class="three columns left lit">
-          <p class="bottom">Aug 29, 2023</p>
-        </div>
-        <div class="nine columns left mb-3">
-          <a href="/2023/08/29/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92%E6%80%BB%E7%BB%93/" class="">
-            
-              动态规划总结
-            
-          </a>
-        </div>
-      </div>
-    </article>
-
-<div class="pagination-bar">
-  <ul class="pagination">
-    
-    
-
-    <a class="" href="/archives/page/2/">
-      <span>Older</span>
-      <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-circle" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-        <path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
-        <path fill-rule="evenodd" d="M4 8a.5.5 0 0 0 .5.5h5.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5H4.5A.5.5 0 0 0 4 8z" />
-      </svg>
-    </a>
-
-    
-  </ul>
-</div>
+  <p><a class="classtest-link" href="/tags/Linux/" rel="tag">Linux</a>, <a class="classtest-link" href="/tags/%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F/" rel="tag">文件系统</a> — Nov 18, 2023</p>
+  
 
 
           <div class="row mt-2">
