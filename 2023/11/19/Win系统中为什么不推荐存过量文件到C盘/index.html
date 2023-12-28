@@ -11,11 +11,11 @@
   <meta charset="utf-8">
 
   
-  <title>终端运行一个像素风浏览器</title>
+  <title>Win系统中为什么不推荐存过量文件到C盘</title>
   
-  <link rel="canonical" href="http://example.com/2023/11/13/%E7%BB%88%E7%AB%AF%E8%BF%90%E8%A1%8C%E4%B8%80%E4%B8%AA%E5%83%8F%E7%B4%A0%E9%A3%8E%E6%B5%8F%E8%A7%88%E5%99%A8/">
+  <link rel="canonical" href="http://example.com/2023/11/19/Win%E7%B3%BB%E7%BB%9F%E4%B8%AD%E4%B8%BA%E4%BB%80%E4%B9%88%E4%B8%8D%E6%8E%A8%E8%8D%90%E5%AD%98%E8%BF%87%E9%87%8F%E6%96%87%E4%BB%B6%E5%88%B0C%E7%9B%98/">
   
-  <meta name="description" content="docker run --rm -ti fathyb/carbonyl https://youtube.com   Git仓库地址">
+  <meta name="description" content="不知从何时起，只要你接触过互联网，你总会得到一句忠告：“不要放文件到C盘”，你也就照做了，可是到底是为什么呢？ 为了搞清楚这件事，你报考了计算机专业，了解到你的C盘不过也就是一个存储介质，有可能是HDD（机械硬盘）或者SSD（固态硬盘）①，那为啥存不了文件？更进一步，你了解到C盘放的是操作系统文件以">
   
   
   <meta name="author" content="Hence Jacki">
@@ -24,21 +24,21 @@
   
   <meta property="og:site_name" content="Just Go" />
   <meta property="og:type" content="article" />
-  <meta property="og:title" content="终端运行一个像素风浏览器" />
+  <meta property="og:title" content="Win系统中为什么不推荐存过量文件到C盘" />
   
-  <meta property="og:description" content="docker run --rm -ti fathyb/carbonyl https://youtube.com   Git仓库地址">
+  <meta property="og:description" content="不知从何时起，只要你接触过互联网，你总会得到一句忠告：“不要放文件到C盘”，你也就照做了，可是到底是为什么呢？ 为了搞清楚这件事，你报考了计算机专业，了解到你的C盘不过也就是一个存储介质，有可能是HDD（机械硬盘）或者SSD（固态硬盘）①，那为啥存不了文件？更进一步，你了解到C盘放的是操作系统文件以">
   
-  <meta property="og:url" content="http://example.com/2023/11/13/%E7%BB%88%E7%AB%AF%E8%BF%90%E8%A1%8C%E4%B8%80%E4%B8%AA%E5%83%8F%E7%B4%A0%E9%A3%8E%E6%B5%8F%E8%A7%88%E5%99%A8/" />
+  <meta property="og:url" content="http://example.com/2023/11/19/Win%E7%B3%BB%E7%BB%9F%E4%B8%AD%E4%B8%BA%E4%BB%80%E4%B9%88%E4%B8%8D%E6%8E%A8%E8%8D%90%E5%AD%98%E8%BF%87%E9%87%8F%E6%96%87%E4%BB%B6%E5%88%B0C%E7%9B%98/" />
 
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="终端运行一个像素风浏览器">
+  <meta name="twitter:title" content="Win系统中为什么不推荐存过量文件到C盘">
   
-  <meta name="twitter:description" content="docker run --rm -ti fathyb/carbonyl https://youtube.com   Git仓库地址">
+  <meta name="twitter:description" content="不知从何时起，只要你接触过互联网，你总会得到一句忠告：“不要放文件到C盘”，你也就照做了，可是到底是为什么呢？ 为了搞清楚这件事，你报考了计算机专业，了解到你的C盘不过也就是一个存储介质，有可能是HDD（机械硬盘）或者SSD（固态硬盘）①，那为啥存不了文件？更进一步，你了解到C盘放的是操作系统文件以">
   
   
   <meta name="twitter:image" content="http://example.comundefined">
   
-  <meta name="twitter:url" content="http://example.com/2023/11/13/%E7%BB%88%E7%AB%AF%E8%BF%90%E8%A1%8C%E4%B8%80%E4%B8%AA%E5%83%8F%E7%B4%A0%E9%A3%8E%E6%B5%8F%E8%A7%88%E5%99%A8/" />
+  <meta name="twitter:url" content="http://example.com/2023/11/19/Win%E7%B3%BB%E7%BB%9F%E4%B8%AD%E4%B8%BA%E4%BB%80%E4%B9%88%E4%B8%8D%E6%8E%A8%E8%8D%90%E5%AD%98%E8%BF%87%E9%87%8F%E6%96%87%E4%BB%B6%E5%88%B0C%E7%9B%98/" />
 
   <!-- Mobile Specific Metas
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
@@ -189,14 +189,19 @@
 </div>
 
         <div class="trans">
-            <h2>终端运行一个像素风浏览器</h2>
+            <h2>Win系统中为什么不推荐存过量文件到C盘</h2>
 
-  <pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">docker</span> run <span class="token parameter variable">--rm</span> <span class="token parameter variable">-ti</span> fathyb/carbonyl https://youtube.com<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+  <p>不知从何时起，只要你接触过互联网，你总会得到一句忠告：“不要放文件到C盘”，你也就照做了，可是到底是为什么呢？</p>
+<p>为了搞清楚这件事，你报考了计算机专业，了解到你的C盘不过也就是一个存储介质，有可能是<strong>HDD（机械硬盘）或者SSD（固态硬盘）①</strong>，那为啥存不了文件？更进一步，你了解到C盘放的是操作系统文件以及其他系统配置文件，可能有了一点思考：操作系统会用到磁盘的一部分空间作为虚拟内存，保证系统的高效运行。但是有Linux开发经验的你已然知晓，Swap空间几乎不会用到（除非你的内存极其紧张），有没有其他的原因？</p>
+<p>后来你通过GPT了解到C盘存放的其他文件，包括日志文件、缓存文件等等，你终于知道了问题的部分关键所在：</p>
+<ul>
+<li>操作系统写入日志文件或者临时文件时，发现磁盘空间不足，会导致相关文件写入失败，影响的是整个系统的稳定性；</li>
+<li>在C盘频繁读写文件会造成磁盘空间碎片化，文件需要更长的时间读取，影响了系统的响应速度；</li>
+</ul>
+<p>综上，你终于理解了为什么不能在C盘放东西了。</p>
+<p>① 两者区别在于HDD为<strong>机械驱动</strong>，SSD为<strong>电子信号驱动</strong>，很明显后者快于前者，但是价格更贵。</p>
 
-<p><video src="/2023/11/13/终端运行一个像素风浏览器/termi-google.mp4" position= "absolute" width="100%" height="100%" controls="controls"></video></p>
-<p><a target="_blank" rel="noopener" href="https://github.com/fathyb/carbonyl">Git仓库地址</a></p>
-
-  <p><a class="classtest-link" href="/tags/Linux/" rel="tag">Linux</a>, <a class="classtest-link" href="/tags/%E7%BB%88%E7%AB%AF/" rel="tag">终端</a> — Nov 13, 2023</p>
+  <p><a class="classtest-link" href="/tags/Windows/" rel="tag">Windows</a>, <a class="classtest-link" href="/tags/%E6%9D%82%E8%B0%88/" rel="tag">杂谈</a> — Nov 19, 2023</p>
   
 
 
