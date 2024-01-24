@@ -11,34 +11,34 @@
   <meta charset="utf-8">
 
   
-  <title>Posts Related to proxy</title>
+  <title>flutter-CMake Error at sqlite3-subbuild</title>
   
-  <link rel="canonical" href="http://hencejacki.github.io/tags/proxy/">
+  <link rel="canonical" href="http://hencejacki.github.io/2024/01/24/flutter-CMake-Error-at-sqlite3-subbuild/">
   
-  <meta name="description" content="Seize a chance, learn to review">
+  <meta name="description" content="Console log  Performing download step (download, verify and extract) for &#39;sqlite3-populate&#39;   -- File already exists but no hash specified (use URL_HA">
   
   
   <meta name="author" content="Hence Jacki">
   
-  <meta property="og:image" content="http://hencejacki.github.io/images/thumbnail.jpg">
+  <meta property="og:image" content="http://hencejacki.github.ioundefined">
   
   <meta property="og:site_name" content="Just Go" />
   <meta property="og:type" content="article" />
-  <meta property="og:title" content="Posts Related to proxy" />
+  <meta property="og:title" content="flutter-CMake Error at sqlite3-subbuild" />
   
-  <meta property="og:description" content="Seize a chance, learn to review">
+  <meta property="og:description" content="Console log  Performing download step (download, verify and extract) for &#39;sqlite3-populate&#39;   -- File already exists but no hash specified (use URL_HA">
   
-  <meta property="og:url" content="http://hencejacki.github.io/tags/proxy/" />
+  <meta property="og:url" content="http://hencejacki.github.io/2024/01/24/flutter-CMake-Error-at-sqlite3-subbuild/" />
 
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Posts Related to proxy">
+  <meta name="twitter:title" content="flutter-CMake Error at sqlite3-subbuild">
   
-  <meta name="twitter:description" content="Seize a chance, learn to review">
+  <meta name="twitter:description" content="Console log  Performing download step (download, verify and extract) for &#39;sqlite3-populate&#39;   -- File already exists but no hash specified (use URL_HA">
   
   
-  <meta name="twitter:image" content="http://hencejacki.github.io/images/thumbnail.jpg">
+  <meta name="twitter:image" content="http://hencejacki.github.ioundefined">
   
-  <meta name="twitter:url" content="http://hencejacki.github.io/tags/proxy/" />
+  <meta name="twitter:url" content="http://hencejacki.github.io/2024/01/24/flutter-CMake-Error-at-sqlite3-subbuild/" />
 
   <!-- Mobile Specific Metas
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
@@ -189,36 +189,112 @@
 </div>
 
         <div class="trans">
-          
+            <h2>flutter-CMake Error at sqlite3-subbuild</h2>
 
+  <h2 id="Console-log"><a href="#Console-log" class="headerlink" title="Console log"></a>Console log</h2><pre class="line-numbers language-txt" data-language="txt"><code class="language-txt">  Performing download step (download, verify and extract) for 'sqlite3-populate'
+  -- File already exists but no hash specified (use URL_HASH):
+    file='E:/2023-2024/wenznote/build/windows/x64/_deps/sqlite3-subbuild/sqlite3-populate-prefix/src/sqlite-autoconf-3450000.tar.gz'
+  Old file will be removed and new file downloaded from URL.
+  -- Downloading...
+     dst='E:/2023-2024/wenznote/build/windows/x64/_deps/sqlite3-subbuild/sqlite3-populate-prefix/src/sqlite-autoconf-3450000.tar.gz'
+     timeout='none'
+     inactivity timeout='none'
+  -- Using src='https://sqlite.org/2024/sqlite-autoconf-3450000.tar.gz'
+  -- [download 0% complete]
+  -- [download xxx% complete]
+  ..........................
+  -- [download 53% complete]
+  CMake Error at sqlite3-subbuild/sqlite3-populate-prefix/src/sqlite3-populate-stamp/download-sqlite3-populate.cmake:170 (message):
+    Each download failed!
 
-   <h3>Posts Related to — proxy</h3>
+CUSTOMBUILD : error : downloading 'https://sqlite.org/2024/sqlite-autoconf-3450000.tar.gz' failed [E:\2023-2024\wenznote\build\windows\x64\_deps\sqlite3-subbuild\sqlite3-populate.vcxproj]
+            status_code: 56
+            status_string: "Failure when receiving data from the peer"
+            log:
+            --- LOG BEGIN ---
+            timeout on name lookup is not supported
+      Trying 45.33.6.223:443...
 
+    Connected to sqlite.org (45.33.6.223) port 443 (#0)
 
+    schannel: disabled automatic use of client certificate
 
-  <article>
-    <div class="row">
+    ALPN: offers h2,http/1.1
 
-      <div class="three columns left lit">
-        <p class="bottom">Jan 24, 2024</p>
-      </div>
-      <div class="nine columns left mb-3">
-        <a href="/2024/01/24/proxy-setting-on-vscode-and-its-terminal/">
-          
-            proxy setting on vscode and its terminal
-          
-        </a>
-      </div>
-    </div>
-  </article>
+    ALPN: server did not agree on a protocol.  Uses default.
 
+    using HTTP/1.x
 
-<div class="pagination-bar">
-  <ul class="pagination">
-    
-    
-  </ul>
-</div>
+    GET /2024/sqlite-autoconf-3450000.tar.gz HTTP/1.1
+
+    Host: sqlite.org
+
+    User-Agent: curl/8.1.2
+
+    Accept: */*
+
+    schannel: remote party requests renegotiation
+
+    schannel: renegotiating SSL/TLS connection
+
+    schannel: SSL/TLS connection renegotiated
+
+    schannel: remote party requests renegotiation
+
+    schannel: renegotiating SSL/TLS connection
+
+    schannel: SSL/TLS connection renegotiated
+
+    schannel: failed to decrypt data, need more data
+
+    HTTP/1.1 200 OK
+
+    Connection: keep-alive
+
+    Date: Wed, 24 Jan 2024 06:19:31 GMT
+
+    Last-Modified: Tue, 23 Jan 2024 15:23:38 GMT
+
+    Cache-Control: max-age=120
+
+    ETag: "m65afd9fas314fd1"
+
+    Content-type: application/x-gzip; charset=utf-8
+
+    Content-length: 3231697
+
+    schannel: failed to decrypt data, need more data
+
+    schannel: failed to decrypt data, need more data
+
+    schannel: failed to decrypt data, need more data
+
+    schannel: failed to decrypt data, need more data
+
+    schannel: failed to decrypt data, need more data
+
+    [16384 bytes data]
+    .....................
+
+            --- LOG END ---
+
+D:\Program Files\VisualStudio\MSBuild\Microsoft\VC\v170\Microsoft.CppCommon.targets(254,5): error MSB8066: “E:\2023-2024\wenznote\build\windows\x64\_deps\sqlite3-subbuild\CMakeFiles\963428d9f187822fc3daa0903acc3c58\sqlite3-populate-download.rule;E:\2023-2024\wenznote\build\windows\x64\_deps\sqlite3-subbuild\CMakeFiles\963428d9f187822fc3daa0903acc3c58\sqlite3-populate-update.rule;E:\2023-2024\wenznote\build\windows\x64\_deps\sqlite3-subbuild\CMakeFiles\963428d9f187822fc3daa0903acc3c58\sqlite3-populate-patch.rule;E:\2023-2024\wenznote\build\windows\x64\_deps\sqlite3-subbuild\CMakeFiles\963428d9f187822fc3daa0903acc3c58\sqlite3-populate-configure.rule;E:\2023-2024\wenznote\build\windows\x64\_deps\sqlite3-subbuild\CMakeFiles\963428d9f187822fc3daa0903acc3c58\sqlite3-populate-build.rule;E:\2023-2024\wenznote\build\windows\x64\_deps\sqlite3-subbuild\CMakeFiles\963428d9f187822fc3daa0903acc3c58\sqlite3-populate-install.rule;E:\2023-2024\wenznote\build\windows\x64\_deps\sqlite3-subbuild\CMakeFiles\963428d9f187822fc3daa0903acc3c58\sqlite3-populate-test.rule;E:\2023-2024\wenznote\build\windows\x64\_deps\sqlite3-subbuild\CMakeFiles\6caef0484fc17cfc106bf46b5e94e466\sqlite3-populate-complete.rule;E:\2023-2024\wenznote\build\windows\x64\_deps\sqlite3-subbuild\CMakeFiles\a676bf3bfb515bb1b1a86497b9c95a75\sqlite3-populate.rule”的自定义生成已退出，代码为 1。 [E:\2023-2024\wenznote\build\windows\x64\_deps\sqlite3-subbuild\sqlite3-populate.vcxproj]
+
+CMake Error at D:/Program Files/VisualStudio/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.27/Modules/FetchContent.cmake:1662 (message):
+  Build step for sqlite3 failed: 1
+Call Stack (most recent call first):
+  D:/Program Files/VisualStudio/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.27/Modules/FetchContent.cmake:1802:EVAL:2 (__FetchContent_directPopulate)
+  D:/Program Files/VisualStudio/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.27/Modules/FetchContent.cmake:1802 (cmake_language)
+  D:/Program Files/VisualStudio/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.27/Modules/FetchContent.cmake:2016 (FetchContent_Populate)
+  flutter/ephemeral/.plugin_symlinks/sqlite3_flutter_libs/windows/CMakeLists.txt:41 (FetchContent_MakeAvailable)
+
+Exception: Unable to generate build files<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h2 id="Solutions"><a href="#Solutions" class="headerlink" title="Solutions"></a>Solutions</h2><p>原因：VSCode网络代理设置问题，导致<code>flutter run</code>命令未走代理线路，造成下载超时。</p>
+<p>可参看这篇文章解决：<a href="">proxy setting on vscode and its terminal</a></p>
+
+  <p><a class="classtest-link" href="/tags/flutter/" rel="tag">flutter</a> — Jan 24, 2024</p>
+  
 
 
           <div class="row mt-2">

@@ -11,34 +11,34 @@
   <meta charset="utf-8">
 
   
-  <title>Posts Related to proxy</title>
+  <title>proxy setting on vscode and its terminal</title>
   
-  <link rel="canonical" href="http://hencejacki.github.io/tags/proxy/">
+  <link rel="canonical" href="http://hencejacki.github.io/2024/01/24/proxy-setting-on-vscode-and-its-terminal/">
   
-  <meta name="description" content="Seize a chance, learn to review">
+  <meta name="description" content="打开VSCode并进行如下步骤：  按F1键，搜索settings，选择第一个并回车  在此JSON文件的最后面添加如下字段   &#34;http.proxy&#34;: &#34;http://127.0.0.1:xxxx&#34;, &#34;terminal.integrated.env.windows&#34;: &amp;#123;     ">
   
   
   <meta name="author" content="Hence Jacki">
   
-  <meta property="og:image" content="http://hencejacki.github.io/images/thumbnail.jpg">
+  <meta property="og:image" content="http://hencejacki.github.ioundefined">
   
   <meta property="og:site_name" content="Just Go" />
   <meta property="og:type" content="article" />
-  <meta property="og:title" content="Posts Related to proxy" />
+  <meta property="og:title" content="proxy setting on vscode and its terminal" />
   
-  <meta property="og:description" content="Seize a chance, learn to review">
+  <meta property="og:description" content="打开VSCode并进行如下步骤：  按F1键，搜索settings，选择第一个并回车  在此JSON文件的最后面添加如下字段   &#34;http.proxy&#34;: &#34;http://127.0.0.1:xxxx&#34;, &#34;terminal.integrated.env.windows&#34;: &amp;#123;     ">
   
-  <meta property="og:url" content="http://hencejacki.github.io/tags/proxy/" />
+  <meta property="og:url" content="http://hencejacki.github.io/2024/01/24/proxy-setting-on-vscode-and-its-terminal/" />
 
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Posts Related to proxy">
+  <meta name="twitter:title" content="proxy setting on vscode and its terminal">
   
-  <meta name="twitter:description" content="Seize a chance, learn to review">
+  <meta name="twitter:description" content="打开VSCode并进行如下步骤：  按F1键，搜索settings，选择第一个并回车  在此JSON文件的最后面添加如下字段   &#34;http.proxy&#34;: &#34;http://127.0.0.1:xxxx&#34;, &#34;terminal.integrated.env.windows&#34;: &amp;#123;     ">
   
   
-  <meta name="twitter:image" content="http://hencejacki.github.io/images/thumbnail.jpg">
+  <meta name="twitter:image" content="http://hencejacki.github.ioundefined">
   
-  <meta name="twitter:url" content="http://hencejacki.github.io/tags/proxy/" />
+  <meta name="twitter:url" content="http://hencejacki.github.io/2024/01/24/proxy-setting-on-vscode-and-its-terminal/" />
 
   <!-- Mobile Specific Metas
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
@@ -189,36 +189,34 @@
 </div>
 
         <div class="trans">
-          
+            <h2>proxy setting on vscode and its terminal</h2>
 
+  <p>打开VSCode并进行如下步骤：</p>
+<ol>
+<li><p>按<code>F1</code>键，搜索settings，选择第一个并回车</p>
+</li>
+<li><p>在此<code>JSON</code>文件的最后面添加如下字段</p>
+</li>
+</ol>
+<pre class="line-numbers language-json" data-language="json"><code class="language-json"><span class="token property">"http.proxy"</span><span class="token operator">:</span> <span class="token string">"http://127.0.0.1:xxxx"</span><span class="token punctuation">,</span>
+<span class="token property">"terminal.integrated.env.windows"</span><span class="token operator">:</span> <span class="token punctuation">&#123;</span>
+    <span class="token property">"http_proxy"</span><span class="token operator">:</span> <span class="token string">"http://127.0.0.1:xxxx"</span><span class="token punctuation">,</span>
+    <span class="token property">"https_proxy"</span><span class="token operator">:</span> <span class="token string">"http://127.0.0.1:xxxx"</span><span class="token punctuation">,</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
-   <h3>Posts Related to — proxy</h3>
+<p>这里的<code>xxxx</code>替换为你自己的代理端口，如果使用的是v2ray的话，那就是参数port+1，具体原因见引用。</p>
+<ol start="3">
+<li><p>重启VSCode</p>
+</li>
+<li><p>测试代理是否正常工作</p>
+</li>
+</ol>
+<p>方式一：下载扩展<code>Network Proxy Test</code>，按F1键输入<code>test network connection</code>，然后输入测试网址：<code>http://google.com或者http://github.com</code>，回车即可。</p>
+<p>方式二：在终端命令行中输入<code>curl -v http://google.com或者http://github.com</code>，经测试，<code>http://github.com</code>可能会阻塞，但并不影响使用。</p>
+<h3 id="References："><a href="#References：" class="headerlink" title="References："></a>References：</h3><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/PxFuture/article/details/134112244">【Flutter】flutter doctor network resources 报错，解决国内开发环境问题</a><br><a target="_blank" rel="noopener" href="https://lynxux.github.io/posts/2021-07-01-windows-terminal-proxy/">v2ray 下 windows terminal 代理的配置</a></p>
 
-
-
-  <article>
-    <div class="row">
-
-      <div class="three columns left lit">
-        <p class="bottom">Jan 24, 2024</p>
-      </div>
-      <div class="nine columns left mb-3">
-        <a href="/2024/01/24/proxy-setting-on-vscode-and-its-terminal/">
-          
-            proxy setting on vscode and its terminal
-          
-        </a>
-      </div>
-    </div>
-  </article>
-
-
-<div class="pagination-bar">
-  <ul class="pagination">
-    
-    
-  </ul>
-</div>
+  <p><a class="classtest-link" href="/tags/proxy/" rel="tag">proxy</a>, <a class="classtest-link" href="/tags/vscode/" rel="tag">vscode</a> — Jan 24, 2024</p>
+  
 
 
           <div class="row mt-2">
