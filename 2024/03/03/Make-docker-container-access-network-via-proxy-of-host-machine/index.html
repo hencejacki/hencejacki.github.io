@@ -11,34 +11,34 @@
   <meta charset="utf-8">
 
   
-  <title>Just Go</title>
+  <title>Make docker container access network via proxy of host machine</title>
   
-  <link rel="canonical" href="http://hencejacki.github.io/">
+  <link rel="canonical" href="http://hencejacki.github.io/2024/03/03/Make-docker-container-access-network-via-proxy-of-host-machine/">
   
-  <meta name="description" content="Seize a chance, learn to review">
+  <meta name="description" content="Overviewwhen i wanna create a container for building flutter project, i ran flutter doctor -v and it would be blocked at the phase of checking accessi">
   
   
   <meta name="author" content="Hence Jacki">
   
-  <meta property="og:image" content="http://hencejacki.github.io/images/thumbnail.jpg">
+  <meta property="og:image" content="http://hencejacki.github.ioundefined">
   
   <meta property="og:site_name" content="Just Go" />
   <meta property="og:type" content="article" />
-  <meta property="og:title" content="Just Go" />
+  <meta property="og:title" content="Make docker container access network via proxy of host machine" />
   
-  <meta property="og:description" content="Seize a chance, learn to review">
+  <meta property="og:description" content="Overviewwhen i wanna create a container for building flutter project, i ran flutter doctor -v and it would be blocked at the phase of checking accessi">
   
-  <meta property="og:url" content="http://hencejacki.github.io/" />
+  <meta property="og:url" content="http://hencejacki.github.io/2024/03/03/Make-docker-container-access-network-via-proxy-of-host-machine/" />
 
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Just Go">
+  <meta name="twitter:title" content="Make docker container access network via proxy of host machine">
   
-  <meta name="twitter:description" content="Seize a chance, learn to review">
+  <meta name="twitter:description" content="Overviewwhen i wanna create a container for building flutter project, i ran flutter doctor -v and it would be blocked at the phase of checking accessi">
   
   
-  <meta name="twitter:image" content="http://hencejacki.github.io/images/thumbnail.jpg">
+  <meta name="twitter:image" content="http://hencejacki.github.ioundefined">
   
-  <meta name="twitter:url" content="http://hencejacki.github.io/" />
+  <meta name="twitter:url" content="http://hencejacki.github.io/2024/03/03/Make-docker-container-access-network-via-proxy-of-host-machine/" />
 
   <!-- Mobile Specific Metas
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
@@ -189,76 +189,24 @@
 </div>
 
         <div class="trans">
-          <div class="row">
-  <div class="column">
-    <!-- Main information, edit it on theme/_config.yml -->
-    <h2 class="mb-2">I am Hence Jacki</h2>
-    <p>A student and developer in CHINA</p>
-    <p>Thank you for watching my blog, it&#39;s built by hexo and the theme is minima(https://github.com/adisaktijrs/hexo-theme-minima)</p>
-  </div>
-</div>
+            <h2>Make docker container access network via proxy of host machine</h2>
 
-<h3>Recent Posts</h3>
+  <h2 id="Overview"><a href="#Overview" class="headerlink" title="Overview"></a>Overview</h2><p>when i wanna create a container for building flutter project, i ran <code>flutter doctor -v</code> and it would be blocked at the phase of checking accessibility of network, especially the <a target="_blank" rel="noopener" href="https://pub.dev/">official website of flutter or dependency hub</a>.So, i wanna find out what’s going on.</p>
+<h2 id="Solution"><a href="#Solution" class="headerlink" title="Solution"></a>Solution</h2><p>Just <strong>set proxy on container machine via proxy of host machine</strong>, just as follows:</p>
+<pre class="line-numbers language-none"><code class="language-none"># on docker container machine
+root@5a36a9fdd681:~# export http_proxy&#x3D;http:&#x2F;&#x2F;your-host-machine-ip:7890
+root@5a36a9fdd681:~# export https_proxy&#x3D;http:&#x2F;&#x2F;your-host-machine-ip:7890<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
 
+<p>Here, the <code>host-machine-ip</code> is the ip address of your host machine access network outside, you could check it by performing <code>ifconfig</code>.</p>
+<p>Above mentioned is just temporary method, we proposed a permanent way to achieve goal.</p>
+<h2 id="Permanent-way"><a href="#Permanent-way" class="headerlink" title="Permanent way"></a>Permanent way</h2><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">docker</span> run <span class="token parameter variable">-it</span> <span class="token parameter variable">--name</span> foo <span class="token parameter variable">-e</span> <span class="token assign-left variable">http_proxy</span><span class="token operator">=</span>http://your-host-machine-ip:7890 <span class="token parameter variable">-e</span> <span class="token assign-left variable">https_proxy</span><span class="token operator">=</span>http://your-host-machine-ip:7890 <span class="token parameter variable">-e</span> <span class="token assign-left variable">no_proxy</span><span class="token operator">=</span>localhost,127.0.0.1 ubuntu:latest <span class="token function">bash</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 
-<div class="row">
+<p>As you see, just set environment variable when you creating docker container and then everything works fine:)</p>
+<p>Also maybe you could create a special <code>network</code> using <code>docker network</code> for proxy.</p>
 
-  <div class="three columns left lit">
-    <p class="bottom">Mar 5, 2024</p>
-  </div>
-  <div class="nine columns left mb-3">
-    <a href="/2024/03/05/Solution-for-multiple-definition-of-functions-in-c-plus-plus/" >
-      
-        Solution for multiple definition of functions in c plus plus
-      
-    </a>
-  </div>
-</div>
+  <p><a class="classtest-link" href="/tags/docker/" rel="tag">docker</a>, <a class="classtest-link" href="/tags/network/" rel="tag">network</a> — Mar 3, 2024</p>
+  
 
-<div class="row">
-
-  <div class="three columns left lit">
-    <p class="bottom">Mar 3, 2024</p>
-  </div>
-  <div class="nine columns left mb-3">
-    <a href="/2024/03/03/Make-docker-container-access-network-via-proxy-of-host-machine/" >
-      
-        Make docker container access network via proxy of host machine
-      
-    </a>
-  </div>
-</div>
-
-<div class="row">
-
-  <div class="three columns left lit">
-    <p class="bottom">Mar 1, 2024</p>
-  </div>
-  <div class="nine columns left mb-3">
-    <a href="/2024/03/01/THe-process-of-TLS-SSL-handshake/" >
-      
-        The process of TLS/SSL handshake
-      
-    </a>
-  </div>
-</div>
-
-<div class="row">
-
-  <div class="three columns left lit">
-    <p class="bottom">Feb 14, 2024</p>
-  </div>
-  <div class="nine columns left mb-3">
-    <a href="/2024/02/14/The-research-of-chinese-modern-education/" >
-      
-        The research of chinese modern education
-      
-    </a>
-  </div>
-</div>
-
-
-<h4> <a href="/archives">All Posts</a></h4>
 
           <div class="row mt-2">
   
