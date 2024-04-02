@@ -11,34 +11,34 @@
   <meta charset="utf-8">
 
   
-  <title>Just Go</title>
+  <title>why asio::read/asio::async_read will block until buffer was full</title>
   
-  <link rel="canonical" href="http://hencejacki.github.io/">
+  <link rel="canonical" href="http://hencejacki.github.io/2024/04/02/why-asio-read-asio-async-read-will-block-until-buffer-was-full/">
   
-  <meta name="description" content="Seize a chance, learn to review">
+  <meta name="description" content="Overviewwhen i wanna read data from a socket, i put the data to a buffer with fixed size, such as 1024 bytes or more.The question i met is once client">
   
   
   <meta name="author" content="Hence Jacki">
   
-  <meta property="og:image" content="http://hencejacki.github.io/images/thumbnail.jpg">
+  <meta property="og:image" content="http://hencejacki.github.ioundefined">
   
   <meta property="og:site_name" content="Just Go" />
   <meta property="og:type" content="article" />
-  <meta property="og:title" content="Just Go" />
+  <meta property="og:title" content="why asio::read/asio::async_read will block until buffer was full" />
   
-  <meta property="og:description" content="Seize a chance, learn to review">
+  <meta property="og:description" content="Overviewwhen i wanna read data from a socket, i put the data to a buffer with fixed size, such as 1024 bytes or more.The question i met is once client">
   
-  <meta property="og:url" content="http://hencejacki.github.io/" />
+  <meta property="og:url" content="http://hencejacki.github.io/2024/04/02/why-asio-read-asio-async-read-will-block-until-buffer-was-full/" />
 
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Just Go">
+  <meta name="twitter:title" content="why asio::read/asio::async_read will block until buffer was full">
   
-  <meta name="twitter:description" content="Seize a chance, learn to review">
+  <meta name="twitter:description" content="Overviewwhen i wanna read data from a socket, i put the data to a buffer with fixed size, such as 1024 bytes or more.The question i met is once client">
   
   
-  <meta name="twitter:image" content="http://hencejacki.github.io/images/thumbnail.jpg">
+  <meta name="twitter:image" content="http://hencejacki.github.ioundefined">
   
-  <meta name="twitter:url" content="http://hencejacki.github.io/" />
+  <meta name="twitter:url" content="http://hencejacki.github.io/2024/04/02/why-asio-read-asio-async-read-will-block-until-buffer-was-full/" />
 
   <!-- Mobile Specific Metas
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
@@ -189,76 +189,22 @@
 </div>
 
         <div class="trans">
-          <div class="row">
-  <div class="column">
-    <!-- Main information, edit it on theme/_config.yml -->
-    <h2 class="mb-2">I am Hence Jacki</h2>
-    <p>A student and developer in CHINA</p>
-    <p>Thank you for watching my blog, it&#39;s built by hexo and the theme is minima(https://github.com/adisaktijrs/hexo-theme-minima)</p>
-  </div>
-</div>
+            <h2>why asio::read/asio::async_read will block until buffer was full</h2>
 
-<h3>Recent Posts</h3>
+  <h2 id="Overview"><a href="#Overview" class="headerlink" title="Overview"></a>Overview</h2><p>when i wanna read data from a socket, i put the data to a buffer with fixed size, such as 1024 bytes or more.The question i met is once client send<br>data of random size to server, asio::read will block until the buffer was full, unless server and client obey the same data format to transfer, especially<br>the data length.</p>
+<h2 id="Solution"><a href="#Solution" class="headerlink" title="Solution"></a>Solution</h2><p>the raw form of asio::read&#x2F;asio::async_read as follows:</p>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">async_read(AsyncReadStream&amp; s, basic_streambuf&lt;Allocator&gt;&amp; b,
+    CompletionCondition completion_condition,
+    BOOST_ASIO_MOVE_ARG(ReadToken) token)<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
 
+<p>As you see, the completion_condition must be provided, otherwise, it will block until the buffer is full!</p>
+<p>we can use <code>boost::asio::stream_buf</code> as buffer, the completion condition is: <code>net::transfer_at_least(/*size transfer at least, may be zero*/)</code></p>
+<p>Another solution is we can invoke <code>socket.read_some</code> method to do a short read.</p>
+<p>The official says: “Programs typically want to transfer an exact number of bytes. When a short read or short write occurs the program must restart the operation, and continue to do so <code>until the required number of bytes has been transferred</code>. Boost.Asio provides generic functions that do this automatically: read(), async_read(), write() and async_write().”</p>
 
-<div class="row">
+  <p><a class="classtest-link" href="/tags/boost/" rel="tag">boost</a>, <a class="classtest-link" href="/tags/c/" rel="tag">c++</a> — Apr 2, 2024</p>
+  
 
-  <div class="three columns left lit">
-    <p class="bottom">Apr 2, 2024</p>
-  </div>
-  <div class="nine columns left mb-3">
-    <a href="/2024/04/02/why-asio-read-asio-async-read-will-block-until-buffer-was-full/" >
-      
-        why asio::read/asio::async_read will block until buffer was full
-      
-    </a>
-  </div>
-</div>
-
-<div class="row">
-
-  <div class="three columns left lit">
-    <p class="bottom">Mar 5, 2024</p>
-  </div>
-  <div class="nine columns left mb-3">
-    <a href="/2024/03/05/Solution-for-multiple-definition-of-functions-in-c-plus-plus/" >
-      
-        Solution for multiple definition of functions in c plus plus
-      
-    </a>
-  </div>
-</div>
-
-<div class="row">
-
-  <div class="three columns left lit">
-    <p class="bottom">Mar 3, 2024</p>
-  </div>
-  <div class="nine columns left mb-3">
-    <a href="/2024/03/03/Make-docker-container-access-network-via-proxy-of-host-machine/" >
-      
-        Make docker container access network via proxy of host machine
-      
-    </a>
-  </div>
-</div>
-
-<div class="row">
-
-  <div class="three columns left lit">
-    <p class="bottom">Mar 1, 2024</p>
-  </div>
-  <div class="nine columns left mb-3">
-    <a href="/2024/03/01/THe-process-of-TLS-SSL-handshake/" >
-      
-        The process of TLS/SSL handshake
-      
-    </a>
-  </div>
-</div>
-
-
-<h4> <a href="/archives">All Posts</a></h4>
 
           <div class="row mt-2">
   
