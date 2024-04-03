@@ -193,9 +193,9 @@
 
   <h2 id="Overview"><a href="#Overview" class="headerlink" title="Overview"></a>Overview</h2><p>when i wanna create a container for building flutter project, i ran <code>flutter doctor -v</code> and it would be blocked at the phase of checking accessibility of network, especially the <a target="_blank" rel="noopener" href="https://pub.dev/">official website of flutter or dependency hub</a>.So, i wanna find out what’s going on.</p>
 <h2 id="Solution"><a href="#Solution" class="headerlink" title="Solution"></a>Solution</h2><p>Just <strong>set proxy on container machine via proxy of host machine</strong>, just as follows:</p>
-<pre class="line-numbers language-none"><code class="language-none"># on docker container machine
-root@5a36a9fdd681:~# export http_proxy&#x3D;http:&#x2F;&#x2F;your-host-machine-ip:7890
-root@5a36a9fdd681:~# export https_proxy&#x3D;http:&#x2F;&#x2F;your-host-machine-ip:7890<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># on docker container machine</span>
+root@5a36a9fdd681:~<span class="token comment"># export http_proxy=http://your-host-machine-ip:7890</span>
+root@5a36a9fdd681:~<span class="token comment"># export https_proxy=http://your-host-machine-ip:7890</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
 
 <p>Here, the <code>host-machine-ip</code> is the ip address of your host machine access network outside, you could check it by performing <code>ifconfig</code>.</p>
 <p>Above mentioned is just temporary method, we proposed a permanent way to achieve goal.</p>

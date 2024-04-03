@@ -11,34 +11,34 @@
   <meta charset="utf-8">
 
   
-  <title>All Posts - Hence Jacki</title>
+  <title>dart use protobuf</title>
   
-  <link rel="canonical" href="http://hencejacki.github.io/archives/2024/page/2/">
+  <link rel="canonical" href="http://hencejacki.github.io/2024/04/03/dart-use-protobuf/">
   
-  <meta name="description" content="Seize a chance, learn to review">
+  <meta name="description" content="OverviewWhen i use socket of dart to write serialized data via protobuf to server, server will parse unexpectedly because invoke socket.write(Object? ">
   
   
   <meta name="author" content="Hence Jacki">
   
-  <meta property="og:image" content="http://hencejacki.github.io/images/thumbnail.jpg">
+  <meta property="og:image" content="http://hencejacki.github.ioundefined">
   
   <meta property="og:site_name" content="Just Go" />
   <meta property="og:type" content="article" />
-  <meta property="og:title" content="All Posts - Hence Jacki" />
+  <meta property="og:title" content="dart use protobuf" />
   
-  <meta property="og:description" content="Seize a chance, learn to review">
+  <meta property="og:description" content="OverviewWhen i use socket of dart to write serialized data via protobuf to server, server will parse unexpectedly because invoke socket.write(Object? ">
   
-  <meta property="og:url" content="http://hencejacki.github.io/archives/2024/page/2/" />
+  <meta property="og:url" content="http://hencejacki.github.io/2024/04/03/dart-use-protobuf/" />
 
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="All Posts - Hence Jacki">
+  <meta name="twitter:title" content="dart use protobuf">
   
-  <meta name="twitter:description" content="Seize a chance, learn to review">
+  <meta name="twitter:description" content="OverviewWhen i use socket of dart to write serialized data via protobuf to server, server will parse unexpectedly because invoke socket.write(Object? ">
   
   
-  <meta name="twitter:image" content="http://hencejacki.github.io/images/thumbnail.jpg">
+  <meta name="twitter:image" content="http://hencejacki.github.ioundefined">
   
-  <meta name="twitter:url" content="http://hencejacki.github.io/archives/2024/page/2/" />
+  <meta name="twitter:url" content="http://hencejacki.github.io/2024/04/03/dart-use-protobuf/" />
 
   <!-- Mobile Specific Metas
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
@@ -189,74 +189,13 @@
 </div>
 
         <div class="trans">
-          
-<h2>All Posts</h2>
+            <h2>dart use protobuf</h2>
 
+  <h2 id="Overview"><a href="#Overview" class="headerlink" title="Overview"></a>Overview</h2><p>When i use socket of dart to write serialized data via protobuf to server, server will parse unexpectedly because invoke <code>socket.write(Object? object)</code> method.</p>
+<h2 id="Solution"><a href="#Solution" class="headerlink" title="Solution"></a>Solution</h2><p>Just invoke <code>socket.add(List&lt;int&gt;? data)</code> method, every thing works fine.</p>
 
-    <article>
-      <div class="row">
-
-        <div class="three columns left lit">
-          <p class="bottom">Jan 24, 2024</p>
-        </div>
-        <div class="nine columns left mb-3">
-          <a href="/2024/01/24/flutter-CMake-Error-at-sqlite3-subbuild/" class="">
-            
-              flutter-CMake Error at sqlite3-subbuild
-            
-          </a>
-        </div>
-      </div>
-    </article>
-
-    <article>
-      <div class="row">
-
-        <div class="three columns left lit">
-          <p class="bottom">Jan 24, 2024</p>
-        </div>
-        <div class="nine columns left mb-3">
-          <a href="/2024/01/24/Timeout-when-git-clone-by-ssh/" class="">
-            
-              Timeout when git clone by ssh
-            
-          </a>
-        </div>
-      </div>
-    </article>
-
-    <article>
-      <div class="row">
-
-        <div class="three columns left lit">
-          <p class="bottom">Jan 22, 2024</p>
-        </div>
-        <div class="nine columns left mb-3">
-          <a href="/2024/01/22/windows-SSH-connection-timeout/" class="">
-            
-              windows-SSH connection timeout
-            
-          </a>
-        </div>
-      </div>
-    </article>
-
-<div class="pagination-bar">
-  <ul class="pagination">
-    
-
-    <a class="mr" href="/archives/2024/">
-      <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-left-circle" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-        <path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
-        <path fill-rule="evenodd" d="M12 8a.5.5 0 0 1-.5.5H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5a.5.5 0 0 1 .5.5z" />
-      </svg>
-      <span>Recent</span>
-    </a>
-
-    
-    
-  </ul>
-</div>
+  <p><a class="classtest-link" href="/tags/dart/" rel="tag">dart</a>, <a class="classtest-link" href="/tags/flutter/" rel="tag">flutter</a> — Apr 3, 2024</p>
+  
 
 
           <div class="row mt-2">
